@@ -96,13 +96,13 @@ namespace Orcus.Administration
             var licenseFile = new FileInfo(CommandLineArgs.Current.LicenseFilePath ?? "license.orcus");
             if (!licenseFile.Exists)
             {
-                Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                /*Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 var licenseWindow = new RegisterOrcusWindow();
                 if (licenseWindow.ShowDialog() != true)
-                    Environment.Exit(0);
+                    Environment.Exit(0);*/
             }
-
-            var license = OrcusActivator.Parse(File.ReadAllText(licenseFile.FullName));
+            var license = OrcusActivator.Parse("");
+            // var license = OrcusActivator.Parse(File.ReadAllText(licenseFile.FullName));
             if (!license.IsValid)
             {
                 MessageBox.Show("Invalid license.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -128,16 +128,16 @@ namespace Orcus.Administration
 
             Logger.Log(LogLevel.Logo, DateTime.Now.Month == 12 && DateTime.Now.Day >= 24 && DateTime.Now.Day <= 27 ? christmasString : welcomeString);
             Logger.Log(LogLevel.Logo,
-                $"\n<<<<<<< {(string) Current.Resources["Version"]}: {Assembly.GetExecutingAssembly().GetName().Version} || {(string) Current.Resources["Developer"]}: Sorzus (Orcus Technologies) >>>>>>>");
+                $"\n<<<<<<< {(string)Current.Resources["Version"]}: {Assembly.GetExecutingAssembly().GetName().Version} || {(string)Current.Resources["Developer"]}: Sorzus (Orcus Technologies) >>>>>>>");
             PluginManager.Current.Initialize();
             CrowdControlPresets.Current.Load("shortcuts");
 
             if (PluginManager.Current.LoadedPlugins.Count > 1)
                 Logger.Log(LogLevel.Info,
-                    string.Format((string) Current.Resources["PluginsLoaded"],
+                    string.Format((string)Current.Resources["PluginsLoaded"],
                         PluginManager.Current.LoadedPlugins.Count));
             else if (PluginManager.Current.LoadedPlugins.Count == 1)
-                Logger.Log(LogLevel.Info, (string) Current.Resources["PluginLoaded"]);
+                Logger.Log(LogLevel.Info, (string)Current.Resources["PluginLoaded"]);
 
             new MainWindow().Show();
             windowServiceInterface.RegisterMainWindow();
